@@ -5,6 +5,7 @@ import { StatusCodes } from "http-status-codes";
 
 import { connection } from "../db/conn.js";
 
+// signup controller
 export const signupController = async (req, res) => {
   const { name, phone, email, password } = req.body;
 
@@ -18,7 +19,7 @@ export const signupController = async (req, res) => {
   const findquery = `SELECT * FROM USERS WHERE PHONE = ${phone}`;
 
   try {
-    await connection.query(findquery, async function (error, result, fields) {
+    connection.query(findquery, async function (error, result, fields) {
       if (error) {
         console.log(error);
       }
@@ -34,44 +35,43 @@ export const signupController = async (req, res) => {
     const hashedpassword = await bcrypt.hash(password, salt);
     const insertquery = `INSERT INTO USERS VALUES ("${uid}" , "${name}" , ${phone} , "${email}" , "${hashedpassword}")`;
 
-    await connection.query(insertquery, async function (error, result, fields) {
+    connection.query(insertquery, async function (error, result, fields) {
       if (error) {
         console.log(error);
       }
 
       if (result) {
-        await connection.query(
-          findquery,
-          async function (error, result, fields) {
-            if (error) {
-              console.log(error);
-            }
-
-            const token = jwt.sign(
-              { userId: this._id },
-              process.env.JWT_SECREAT,
-              {
-                expiresIn: "60d",
-              }
-            );
-
-            res.status(StatusCodes.OK).json({
-              result: {
-                uid: result[0].uid,
-                name: result[0].name,
-                phone: result[0].phone,
-                email: result[0].email,
-              },
-              token,
-            });
+        connection.query(findquery, async function (error, result, fields) {
+          if (error) {
+            console.log(error);
           }
-        );
+
+          const token = jwt.sign(
+            { userId: this._id },
+            process.env.JWT_SECREAT,
+            {
+              expiresIn: "60d",
+            }
+          );
+
+          res.status(StatusCodes.OK).json({
+            result: {
+              uid: result[0].uid,
+              name: result[0].name,
+              phone: result[0].phone,
+              email: result[0].email,
+            },
+            token,
+          });
+        });
       }
     });
   } catch (error) {
     console.log(error);
   }
 };
+
+// login controller
 export const loginController = async (req, res) => {
   const { phone, password } = req.body;
 

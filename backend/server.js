@@ -9,6 +9,7 @@ import "express-async-errors";
 import { connect } from "./db/conn.js";
 
 import userRoutes from "./routes/users.js";
+import orderRoutes from "./routes/orders.js";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 const baseUrl = "/api/v1";
 
 app.use(`${baseUrl}/user`, userRoutes);
+app.use(`${baseUrl}/order`, orderRoutes);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

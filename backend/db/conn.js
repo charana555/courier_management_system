@@ -1,4 +1,4 @@
-import mysql from "mysql";
+import mysql from "mysql2";
 
 export const connection = mysql.createConnection({
   host: "localhost",
@@ -7,8 +7,8 @@ export const connection = mysql.createConnection({
   database: "courier",
 });
 
-export const connect = async () => {
-  await connection.connect((err) => {
+export const connect = () => {
+  connection.connect((err) => {
     if (err) {
       return console.log(err);
     }
