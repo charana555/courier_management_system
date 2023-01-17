@@ -9,6 +9,8 @@ import { connection } from "../db/conn.js";
 export const signupController = async (req, res) => {
   const { name, phone, email, password } = req.body;
 
+  console.log(req.body);
+
   if (!name || !phone || !email || !password) {
     res
       .status(StatusCodes.BAD_REQUEST)
@@ -35,15 +37,19 @@ export const signupController = async (req, res) => {
     const hashedpassword = await bcrypt.hash(password, salt);
     const insertquery = `INSERT INTO USERS VALUES ("${uid}" , "${name}" , ${phone} , "${email}" , "${hashedpassword}")`;
 
-    connection.query(insertquery, async function (error, result, fields) {
+    connection.query(insertquery, async function (error, result) {
       if (error) {
-        console.log(error);
+        return res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ msg: "Somthing went wrong! try again" });
       }
 
       if (result) {
-        connection.query(findquery, async function (error, result, fields) {
+        connection.query(findquery, async function (error, result) {
           if (error) {
-            console.log(error);
+            return res
+              .status(StatusCodes.INTERNAL_SERVER_ERROR)
+              .json({ msg: "Somthing went wrong! try again" });
           }
 
           const token = jwt.sign(
@@ -67,7 +73,9 @@ export const signupController = async (req, res) => {
       }
     });
   } catch (error) {
-    console.log(error);
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Somthing went wrong! try again" });
   }
 };
 
@@ -77,9 +85,11 @@ export const loginController = async (req, res) => {
 
   const findquery = `SELECT * FROM USERS WHERE PHONE = ${phone}`;
 
-  await connection.query(findquery, async function (error, result, fields) {
+  connection.query(findquery, async function (error, result) {
     if (error) {
-      console.log(error);
+      return res
+        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ msg: "Somthing went wrong! try again" });
     }
     if (result.length === 0)
       return res

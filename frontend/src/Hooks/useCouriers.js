@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 const useCouriers = (url) => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -11,7 +11,7 @@ const useCouriers = (url) => {
     axios
       .get(url)
       .then((response) => {
-        setData(response.data);
+        setData(response.data.result);
       })
       .catch((err) => {
         setError(err);

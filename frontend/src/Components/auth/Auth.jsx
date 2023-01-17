@@ -65,7 +65,7 @@ const Auth = () => {
         user.email,
         user.password
       );
-
+      console.log(res);
       if (res.status === 200) {
         alert("Signup Successfull");
       }

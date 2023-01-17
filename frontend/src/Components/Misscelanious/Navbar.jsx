@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <section className=" w-full bg-slate-500 h-screen flex flex-col gap-16 items-center ">
+    <section className=" w-full bg-slate-500 min-h-screen flex flex-col gap-16 items-center ">
       <img
         className=" m-10 "
         src="/courier.png"

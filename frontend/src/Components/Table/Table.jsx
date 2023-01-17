@@ -6,36 +6,13 @@ const rows = [
   "S-Phone",
   "R-Name",
   "R-Phone",
-  "Date",
+  // "Date",
   "R-City",
   "R-Pincode",
   "Details",
 ];
 
-const values = [
-  {
-    Order_ID: "Or001",
-    S_Name: "Ajay",
-    S_Phone: "8967451236",
-    R_Name: "Abhishek",
-    R_Phone: "4587963214",
-    Date: "16/01/2023",
-    R_City: "Banglore",
-    R_Pincode: "540064",
-  },
-  {
-    Order_ID: "Or001",
-    S_Name: "Ajay",
-    S_Phone: "8967451236",
-    R_Name: "Abhishek",
-    R_Phone: "4587963214",
-    Date: "16/01/2023",
-    R_City: "Banglore",
-    R_Pincode: "540064",
-  },
-];
-
-const Table = () => {
+const Table = ({ values }) => {
   return (
     <table className=" w-full ">
       <thead className=" bg-gray-300">
@@ -51,35 +28,47 @@ const Table = () => {
         </tr>
       </thead>
       <tbody className=" divide-y divide-gray-200 ">
-        {values.map((value, i) => (
+        {values.map((order, i) => (
           <tr key={i} className={i % 2 ? "bg-slate-200" : "bg-slate-50"}>
             <td className=" font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
-              {value.Order_ID}
+              {order?.OR_ID}
             </td>
             <td className=" font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
-              {value.S_Name}
+              {order?.cname}
             </td>
             <td className=" font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
-              {value.S_Phone}
+              {order?.cphone}
             </td>
             <td className=" font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
-              {value.R_Name}
+              {order.NAME}
             </td>
             <td className=" font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
-              {value.R_Phone}
+              {order.PHONE}
+            </td>
+            {/* <td className=" font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
+              {order.Date}
+            </td> */}
+            <td className=" font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
+              {order.CITY}
             </td>
             <td className=" font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
-              {value.Date}
+              {order.PINCODE}
             </td>
-            <td className=" font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
-              {value.R_City}
-            </td>
-            <td className=" font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
-              {value.R_Pincode}
-            </td>
-            <td className="  font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
-              <BsInfoSquareFill className=" text-2xl m-auto font-bold text-[#1d4f9c] cursor-pointer" />
-            </td>
+            {order.STATUS === "Pending" && (
+              <td className="  font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
+                <BsInfoSquareFill className=" text-2xl m-auto font-bold text-[#1d4f9c] cursor-pointer" />
+              </td>
+            )}
+            {order.STATUS === "Completed" && (
+              <td className="  font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
+                <BsInfoSquareFill className=" text-2xl m-auto font-bold text-[#16a34a] cursor-pointer" />
+              </td>
+            )}
+            {order.STATUS === "Cancelled" && (
+              <td className="  font-bold whitespace-nowrap px-3 py-1.5 text-sm text-gray-800 text-center">
+                <BsInfoSquareFill className=" text-2xl m-auto font-bold text-[#e02424] cursor-pointer" />
+              </td>
+            )}
           </tr>
         ))}
       </tbody>
