@@ -10,6 +10,7 @@ import { connect } from "./db/conn.js";
 
 import userRoutes from "./routes/users.js";
 import orderRoutes from "./routes/orders.js";
+import customerRoutes from "./routes/customers.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ const baseUrl = "/api/v1";
 
 app.use(`${baseUrl}/user`, userRoutes);
 app.use(`${baseUrl}/order`, orderRoutes);
+app.use(`${baseUrl}/customers`, customerRoutes);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-const useCouriers = (url) => {
+const useFetch = (url) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -24,4 +24,4 @@ const useCouriers = (url) => {
   return { data, loading, error };
 };
 
-export default useCouriers;
+export default useFetch;

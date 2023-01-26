@@ -2,9 +2,9 @@ import { connection } from "../db/conn.js";
 import { StatusCodes } from "http-status-codes";
 
 export const createOrders = (req, res) => {
-  const { cid, name, phone, address, city, pincode } = req.body;
+  const { cid, name, phone, address, city, pincode, date } = req.body;
 
-  if (!cid || !name || !phone || !address || !city || !pincode) {
+  if (!cid || !name || !phone || !address || !city || !pincode || !date) {
     res
       .status(StatusCodes.BAD_REQUEST)
       .json({ message: "Please provide all fields" });
@@ -12,7 +12,7 @@ export const createOrders = (req, res) => {
     return false;
   }
 
-  const createQuery = `INSERT INTO ORDERS (cid, name , phone , address , city , pincode ) VALUES ( ${cid} , "${name} ", ${phone} , "${address}" ," ${city} ", ${pincode} )`;
+  const createQuery = `INSERT INTO ORDERS (cid, name , phone , address , city , pincode ,date ) VALUES ( ${cid} , "${name} ", ${phone} , "${address}" ," ${city} ", ${pincode} , "${date}" )`;
 
   try {
     connection.query(createQuery, async function (err, result) {
