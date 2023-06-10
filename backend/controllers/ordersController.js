@@ -122,3 +122,27 @@ export const getSingleOrder = (req, res) => {
       .json({ msg: "Somthing went wrong! try again" });
   }
 };
+
+export const getStatusOrders = (req, res) => {
+  const { status } = req.params;
+
+  const findquery = `SELECT * FROM ORDERS , CUSTOMERS WHERE ORDERS.CID = CUSTOMERS.CID AND STATUS = "${status}" ORDER BY OR_ID `;
+
+  try {
+    connection.query(findquery, async function (err, result) {
+      if (err) {
+        return res
+          .status(StatusCodes.INTERNAL_SERVER_ERROR)
+          .json({ msg: "Somthing went wrong! try again" });
+      }
+
+      if (result) {
+        res.status(StatusCodes.OK).json({ result });
+      }
+    });
+  } catch (err) {
+    return res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Somthing went wrong! try again" });
+  }
+};

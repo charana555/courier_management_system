@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
 
 const Auth = () => {
   const [signup, setSignup] = useState(false);
 
+  const navigate = useNavigate();
   const { Signin, Login } = useAuth();
 
   const [user, setUser] = useState({
@@ -68,6 +70,7 @@ const Auth = () => {
       console.log(res);
       if (res.status === 200) {
         alert("Signup Successfull");
+        navigate("/");
       }
 
       if (res.status === 400) {
@@ -89,6 +92,7 @@ const Auth = () => {
 
       if (res.status === 200) {
         alert("Login Successfull");
+        navigate("/");
       }
 
       if (res.status === 400) {
@@ -106,6 +110,9 @@ const Auth = () => {
 
   return (
     <div className="bg-slate-200 min-h-screen flex flex-col">
+      <div className="mx-auto mt-8">
+        <img src="/zip_zap.png" alt="logo" height={350} width={350} />
+      </div>
       <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
         <div className="bg-slate-100 px-6 py-8 rounded shadow-md text-black w-full">
           <h1 className="mb-8 text-3xl text-center font-mono">
@@ -159,7 +166,7 @@ const Auth = () => {
           <input
             onClick={handlesubmit}
             type="submit"
-            className="w-full text-center py-3 rounded bg-green-600 cursor-pointer  text-white hover:bg-green-dark focus:outline-none my-1"
+            className="w-full text-center py-3 rounded bg-[#5dbd30] cursor-pointer font-semibold  text-black hover:bg-green-dark focus:outline-none my-1"
             value={signup ? "Create Account" : "Login"}
           />
         </div>
