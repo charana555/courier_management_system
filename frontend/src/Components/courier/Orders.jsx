@@ -1,26 +1,37 @@
-import React, { useState } from "react";
-import useFetch from "../../Hooks/useFetch.js";
+import React, { useEffect, useState } from "react";
+// import useFetch from "../../Hooks/useFetch.js";
 
 import Navbar from "../Navbar/Navbar";
 import Table from "../Table/Table";
 import NewCourierModal from "../Modal/NewCourierModal";
 
+import { useSelector, useDispatch } from "react-redux";
+import { fetchPackages } from "../../store/slices/packageSlice";
+
 const Orders = () => {
   const [toggle, setToggle] = useState(false);
 
-  const { data, loading, error } = useFetch(
-    "http://127.0.0.1:5000/api/v1/order/orders"
-  );
+  const dispatch = useDispatch();
 
-  if (error) {
-    console.log(error);
+  const data = useSelector((state) => state.package);
+
+  useEffect(() => {
+    dispatch(fetchPackages());
+  }, []);
+
+  // const { data, loading, error } = useFetch(
+  //   "http://127.0.0.1:5000/api/v1/order/orders"
+  // );
+
+  if (!data.loading && data.error) {
+    console.log(data.error);
   }
 
-  if (data) {
-    console.log(data);
-  }
+  // if (data) {
+  //   console.log(data);
+  // }
 
-  if (loading) return <h2> Loading....</h2>;
+  if (data.loading) return <h2> Loading....</h2>;
 
   return (
     <section className="flex">
@@ -44,7 +55,7 @@ const Orders = () => {
               </button>
             </div>
             <div className="p-3">
-              <Table values={data} />
+              <Table values={data.packages} />
             </div>
           </>
         )}
